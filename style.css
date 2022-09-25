@@ -1,0 +1,117 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap');
+
+:root {
+    --bg-color: #2F3D40;
+    --tl-red: #E73838;
+    --tl-yellow: yellow;
+    --tl-green: lime;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+
+    
+
+    font-family: 'Montserrat', sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    font-size: 24pt;
+}
+
+#wrapper {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.section-traffic-light {
+    width: 100%;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    gap: 2vw;
+}
+
+.metrics {
+    margin-top: 4vh;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 2vw;
+
+    text-align: left;
+
+    width: 20vw;
+}
+
+.metric {
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.traffic-light {
+    display:  flex;
+    flex-direction: column;
+
+    gap: 1vw;
+
+    box-shadow: -6px -7px 73px -14px rgba(0, 0, 0, 0.37);
+    border-radius: 26px;
+    padding: 2vw 2vw;
+}
+
+
+.traffic-light_led {
+    width: 8vw;
+    height: 8vw;
+    border-radius: 50%;
+    
+    box-shadow: inset 4px 5px 16px -10px rgba(255, 255, 255, 0.25), inset -6px -6px 32px 1px rgba(0, 0, 0, 0.25);
+}
+
+.traffic-light_led.small {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 7vw;
+    height: 7vw;
+}
+
+.traffic-light_led.active.red {
+    background: var(--tl-red);
+    box-shadow: 0px 0px 86px -5px var(--tl-red), 
+                inset 0px 17px 22px 3px rgba(0, 0, 0, 0.25);
+}
+
+.traffic-light_led.active.yellow {
+    background: var(--tl-yellow);
+    box-shadow: 0px 0px 86px -5px var(--tl-yellow), 
+                inset 0px 17px 22px 3px rgba(0, 0, 0, 0.25);
+}
+
+.traffic-light_led.active.green  {
+    background: var(--tl-green);
+    box-shadow: 0px 0px 86px -5px var(--tl-green), 
+                inset 0px 17px 22px 3px rgba(0, 0, 0, 0.25);
+}
+
+.svsg {
+    width: 50%;
+}
+
+.metric_name {
+    font-weight: 600;
+}

@@ -39,6 +39,7 @@ body {
     justify-content: center;
     align-items: center;
 
+
     gap: 2vw;
 }
 
@@ -65,17 +66,19 @@ body {
     display:  flex;
     flex-direction: column;
 
-    gap: 1vw;
+    gap: 24px;
 
     box-shadow: -6px -7px 73px -14px rgba(0, 0, 0, 0.37);
     border-radius: 26px;
-    padding: 2vw 2vw;
+    padding: 20px 25px;
+
+    
 }
 
 
 .traffic-light_led {
-    width: 8vw;
-    height: 8vw;
+    width: 128px;
+    height: 128px;
     border-radius: 50%;
     
     box-shadow: inset 4px 5px 16px -10px rgba(255, 255, 255, 0.25), inset -6px -6px 32px 1px rgba(0, 0, 0, 0.25);
@@ -86,8 +89,8 @@ body {
     justify-content: center;
     align-items: center;
 
-    width: 7vw;
-    height: 7vw;
+    width: 100px;
+    height: 100px;
 }
 
 .traffic-light_led.active.red {

@@ -15,66 +15,85 @@ const tfLedTurnOff = (viewNode) => viewNode.classList.remove("active");
 const tfSwitchLedsState = (trafficLight, statesAction) =>
   trafficLight.map((led, index) => statesAction[index](led));
 
+
+const tfSwitchLedsStateCarPed = (car, ped) => {
+  tfSwitchLedsState(trafficLights.car, car);
+  tfSwitchLedsState(trafficLights.ped, ped);
+} 
+
+let timer = 0;
+let state = "Q0";
+
 const states = {
   Q0: {
-    func: () =>
-      tfSwitchLedsState(trafficLights.car, [
-        tfLedTurnOff,
-        tfLedTurnOff,
-        tfLedTurnOff,
-      ]) & tfSwitchLedsState(trafficLights.ped, [tfLedTurnOff, tfLedTurnOff]),
+    func: () => tfSwitchLedsStateCarPed(
+      [tfLedTurnOff, tfLedTurnOff, tfLedTurnOff], 
+      [tfLedTurnOff, tfLedTurnOff]
+    ),
     next: "Q1",
     delay: 0,
   },
   Q1: {
     func: () =>
-      tfSwitchLedsState(trafficLights.car, [
-        tfLedTurnOn,
-        tfLedTurnOff,
-        tfLedTurnOff,
-      ]) & tfSwitchLedsState(trafficLights.ped, [tfLedTurnOff, tfLedTurnOn]),
+    tfSwitchLedsStateCarPed(
+      [tfLedTurnOn, tfLedTurnOff, tfLedTurnOff], 
+      [tfLedTurnOff, tfLedTurnOn]
+    ),
     next: "Q2",
     delay: 20,
   },
   Q2: {
-    func: () =>
-      tfSwitchLedsState(trafficLights.car, [
-        tfLedTurnOn,
-        tfLedTurnOn,
-        tfLedTurnOff,
-      ]) & tfSwitchLedsState(trafficLights.ped, [tfLedTurnOn, tfLedTurnOff]),
+    func: () => tfSwitchLedsStateCarPed(
+      [tfLedTurnOn, tfLedTurnOn, tfLedTurnOff], 
+      [tfLedTurnOn, tfLedTurnOff]
+    ),
     next: "Q3",
     delay: 15,
   },
   Q3: {
-    func: () =>
-      tfSwitchLedsState(trafficLights.car, [
-        tfLedTurnOff,
-        tfLedTurnOff,
-        tfLedTurnOn,
-      ]) & tfSwitchLedsState(trafficLights.ped, [tfLedTurnOn, tfLedTurnOff]),
-    next: "Q4",
+    func: () => tfSwitchLedsStateCarPed(
+      [tfLedTurnOff, tfLedTurnOff, tfLedTurnOn], 
+      [tfLedTurnOn, tfLedTurnOff]
+    ),
+    next: "Q3_Blink_Off",
     delay: 25,
   },
+  Q3_Blink_Off: {
+    func: (me) => {
+      tfSwitchLedsStateCarPed(
+        [tfLedTurnOff, tfLedTurnOff, tfLedTurnOff], 
+        [tfLedTurnOn, tfLedTurnOff]
+      );
+
+      me.next = (me.blinkTimes > 3) ? "Q4" : "Q3_Blink_On";
+      me.blinkTimes = me.next == "Q4" ? 0 : me.blinkTimes + 1;  
+    },
+    next: "Q3_Blink_On",
+    delay: 2,
+    blinkTimes: 0
+  },
+  Q3_Blink_On: {
+    func: () => tfSwitchLedsStateCarPed(
+      [tfLedTurnOff, tfLedTurnOff, tfLedTurnOn], 
+      [tfLedTurnOn, tfLedTurnOff]
+    ),
+    next: "Q3_Blink_Off",
+    delay: 2,
+  },
   Q4: {
-    func: () =>
-      tfSwitchLedsState(trafficLights.car, [
-        tfLedTurnOff,
-        tfLedTurnOn,
-        tfLedTurnOff,
-      ]) & tfSwitchLedsState(trafficLights.ped, [tfLedTurnOn, tfLedTurnOff]),
+    func: () => tfSwitchLedsStateCarPed(
+      [tfLedTurnOff, tfLedTurnOn, tfLedTurnOff], 
+      [tfLedTurnOn, tfLedTurnOff]
+    ),
     next: "Q1",
     delay: 15,
   },
 };
 
-let timer = 0;
-let state = "Q0";
-
 const update = () => {
   document.querySelector("#state").innerHTML = state;
 
-  states[state].func();
+  states[state].func(states[state]);
 
   setTimeout(update, states[state].delay * 100);
   state = states[state].next;

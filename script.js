@@ -71,13 +71,16 @@ const states = {
   },
 };
 
+document.querySelector("#state").innerHTML = state;
+document.querySelector("#timer").innerHTML = "" + timer;
 setInterval(() => {
   if (timer == states[state].delay) state = states[state].next;
 
   states[state].func(states[state]);
-  document.querySelector("#state").innerHTML = state;
-  document.querySelector("#timer").innerHTML = "" + timer;
 
   timer++;
   timer %= 25;
+
+  document.querySelector("#state").innerHTML = state;
+  document.querySelector("#timer").innerHTML = "" + timer;
 }, 1000);
